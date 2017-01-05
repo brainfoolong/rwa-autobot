@@ -223,7 +223,7 @@ widget.executeUserScript = function (server, programId, script, sandboxData) {
             callback(null);
             return;
         }
-        gametools.rust.serverstatus(server, callback);
+        gametools.rust.serverstatus(server, false, callback);
     };
     var empty = function () {
 
