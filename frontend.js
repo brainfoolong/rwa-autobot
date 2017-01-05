@@ -100,7 +100,7 @@ Widget.register(function (widget) {
         var tplSplit = id ? id.split("_") : null;
         if (tplSplit && tplSplit.length > 1) {
             $.ajax({
-                "url": "widgets/autobot/script-templates/" + tplSplit[1] + ".js",
+                "url": "widgets/rwa-autobot/script-templates/" + tplSplit[1] + ".js",
                 "dataType": "text",
                 "success": function (content) {
                     aceSession.setValue(content);
@@ -173,7 +173,7 @@ Widget.register(function (widget) {
             aceEditor = ace.edit(editor[0]);
             aceEditor.$blockScrolling = Infinity;
             aceSession = aceEditor.getSession();
-            ace.config.set('basePath', 'widgets/autobot/ace');
+            ace.config.set('basePath', 'widgets/rwa-autobot/ace');
             aceEditor.setOptions({
                 fontSize: "12px"
             });
@@ -197,7 +197,7 @@ Widget.register(function (widget) {
             });
         };
         if (!window.ace) {
-            $.getScript("widgets/autobot/ace/ace.js", aceCallback);
+            $.getScript("widgets/rwa-autobot/ace/ace.js", aceCallback);
         } else {
             aceCallback();
         }
