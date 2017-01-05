@@ -219,6 +219,9 @@ widget.executeUserScript = function (server, programId, script, sandboxData) {
     };
     sandboxData.rust = {};
     sandboxData.rust.serverstatus = function (callback) {
+        if (!callback) callback = function () {
+
+        };
         if (server.serverData.game != "rust") {
             callback(null);
             return;
