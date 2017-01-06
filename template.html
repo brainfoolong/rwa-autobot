@@ -1,0 +1,40 @@
+<div class="form-title form-group has-feedback input-group form-inline collapsable-target"
+     data-collapsable-id="autobot.editor">
+    <input type="text" class="form-control" data-translate-property="placeholder,title.placeholder">
+    <select class="selectpicker">
+        <option value="yes" selected data-translate="program.enabled"></option>
+        <option value="no" data-translate="program.disabled"></option>
+    </select>
+</div>
+
+<div class="actions">
+    <div class="spacer"></div>
+    <div>
+        <span class="btn btn-info hidden save" data-translate="save.changes"></span>
+        <span class="btn btn-danger hidden delete btn-sm" data-translate="delete.program"></span>
+    </div>
+</div>
+
+<div class="program-select-container">
+    <h2 class="collapsable-trigger" data-collapsable-target="autobot.list" data-translate="list"></h2>
+    <div class="collapsable-target program-select" data-collapsable-id="autobot.list">
+        <select class="selectpicker">
+            <option value="" data-keep="1" data-translate="list.programs"></option>
+            <option value="-" data-keep="1" data-translate="new.program"></option>
+        </select>
+    </div>
+    <div class="spacer"></div>
+</div>
+
+<div class="editor-header">
+    <h2 class="collapsable-trigger" data-collapsable-target="autobot.editor" data-translate="editor"></h2>
+</div>
+
+<div class="editor collapsable-target" data-collapsable-id="autobot.editor"></div>
+
+<div class="options-container">
+    <h2 class="collapsable-trigger" data-collapsable-target="autobot.options" data-translate="variables"></h2>
+    <div class="options collapsable-target" data-collapsable-id="autobot.options">
+        <div></div>
+    </div>
+</div>

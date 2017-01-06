@@ -1,30 +1,13 @@
 "use strict";
 
-Widget.register(function (widget) {
+Widget.register("rwa-autobot", function (widget) {
 
-    var titleEl = $('<div class="form-group has-feedback input-group form-inline collapsable-target" data-collapsable-id="autobot.editor">' +
-        '<input type="text" class="form-control" placeholder="' + widget.t("title.placeholder") + '">' +
-        '<select class="selectpicker">' +
-        '<option value="yes" selected>' + widget.t("program.enabled") + '</option>' +
-        '<option value="no">' + widget.t("program.disabled") + '</option>' +
-        '</select>' +
-        '</div>');
-    var actionBtns = $('<div class="spacer"></div><div>' +
-        '<span class="btn btn-info hidden save">' + widget.t("save.changes") + '</span>' +
-        '<span class="btn btn-danger hidden delete">' + widget.t("delete.program") + '</span>' +
-        '</div>');
-    var programSelect = $(
-        '<h2 class="collapsable-trigger" data-collapsable-target="autobot.list">' + widget.t("list") + '</h2>' +
-        '<div class="collapsable-target program-select" data-collapsable-id="autobot.list">' +
-        '<select class="selectpicker">' +
-        '<option value="" data-keep="1">' + widget.t("list.programs") + '</option>' +
-        '<option value="-" data-keep="1">' + widget.t("new.program") + '</option>' +
-        '</select>' +
-        '</div><div class="spacer"></div>');
-    var editorHeader = $($('<h2 class="collapsable-trigger" data-collapsable-target="autobot.editor">').text(widget.t("editor")));
-    var editor = $('<div class="editor collapsable-target" data-collapsable-id="autobot.editor">');
-    var options = $('<h2 class="collapsable-trigger" data-collapsable-target="autobot.options">' + widget.t("variables") + '</h2>' +
-        '<div class="options collapsable-target" data-collapsable-id="autobot.options"><div></div></div>');
+    var titleEl = widget.template(".form-title");
+    var actionBtns = widget.template(".actions");
+    var programSelect = widget.template(".program-select-container");
+    var editorHeader = widget.template(".editor-header");
+    var editor = widget.template(".editor");
+    var options = widget.template(".options-container");
 
     var scriptTemplates = ["echobot", "nextwipe", "repeatchat", "restart", "rust-autokick", "warnsalty", "welcomegoodbye"];
 
