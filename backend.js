@@ -16,7 +16,7 @@ var widget = new Widget();
 widget.onServerMessage = function (server, message) {
     var sandboxData = {
         "context": message.type === 4 ? "serverMessageLog" : "serverMessage",
-        "message": message.body.toString()
+        "message": message.body
     };
     var chatMsg = sandboxData.message.match(/^\[CHAT\] (.*?)\[([0-9]+)\/([0-9]+)\] \: (.*)/i);
     var joinMsg = sandboxData.message.match(/([0-9]+)\/([0-9]+)\/(.*?) (joined|disconnect)/i);
