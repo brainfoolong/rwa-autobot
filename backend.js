@@ -16,12 +16,12 @@ var widget = new Widget();
 widget.onServerMessage = function (server, message) {
     var sandboxData = {
         "context": message.type === 4 ? "serverMessageLog" : "serverMessage",
-        "message": message.body
+        "message": message.body.toString()
     };
-    var chatMsg = message.body.match(/^\[CHAT\] (.*?)\[([0-9]+)\/([0-9]+)\] \: (.*)/i);
-    var joinMsg = message.body.match(/([0-9]+)\/([0-9]+)\/(.*?) (joined|disconnect)/i);
-    var banKickMsg = message.body.match(/^(banned|kicked):(.*)/i);
-    var unbanMsg = message.body.match(/^Unbanned User:(.*)/i);
+    var chatMsg = sandboxData.message.match(/^\[CHAT\] (.*?)\[([0-9]+)\/([0-9]+)\] \: (.*)/i);
+    var joinMsg = sandboxData.message.match(/([0-9]+)\/([0-9]+)\/(.*?) (joined|disconnect)/i);
+    var banKickMsg = sandboxData.message.match(/^(banned|kicked):(.*)/i);
+    var unbanMsg = sandboxData.message.match(/^Unbanned User:(.*)/i);
     if (chatMsg) {
         sandboxData.context = "chat";
         sandboxData.user = {
