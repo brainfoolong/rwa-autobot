@@ -1,4 +1,6 @@
-# Autobot Widget
+# Autobot Widget | Not working currently
+
+**Information**: The rcon web admin system currentl not support this widget
 
 The name is program. Automate commands, schedule commands, simply do "if this than that". You can listen for events, such as incoming chat message, player join. You can do some periodic tasks like sending a server message out every 30 minutes or restart server each day at 06:00 am. You can do an auto-kick/auto-ban feature. We provide many examples for you in this readme to get started. Fully scriptable with, easy to use, all time best, javascript. It's basically a widget in a widget in the rcon web admin, magic, isn't it?
 
@@ -48,7 +50,6 @@ You can use this methods to send a chat message or to execute any command you li
     * **name** = The name of the variable that than can be used in the script
     * **type** = The variable type, available types: switch, number, text
     * **defaultValue** = The default value of the variable if the user don't change it
-* **rust.serverstatus(callback)** = Get a full serverstatus inclusive all players for the server.
     
 ## FAQ
 

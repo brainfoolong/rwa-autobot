@@ -216,7 +216,7 @@ Widget.register("rwa-autobot", function (widget) {
 
         collapsable(widget.content);
 
-        Socket.onMessage("autobot", function (data) {
+        Socket.onMessage("autobot." + widget.server, function (data) {
             if (data.action == "autobotExecutedScript") {
                 if (data.messageData.logs) {
                     var logs = data.messageData.logs;

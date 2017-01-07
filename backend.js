@@ -217,17 +217,6 @@ widget.executeUserScript = function (server, programId, script, sandboxData) {
             return widget.storage.set(server, "autobot." + programId + "." + key, value, lifetime);
         }
     };
-    sandboxData.rust = {};
-    sandboxData.rust.serverstatus = function (callback) {
-        if (!callback) callback = function () {
-
-        };
-        if (server.serverData.game != "rust") {
-            callback(null);
-            return;
-        }
-        gametools.rust.serverstatus(server, false, callback);
-    };
     var empty = function () {
 
     };
@@ -236,7 +225,6 @@ widget.executeUserScript = function (server, programId, script, sandboxData) {
         sandboxData.cmd = empty;
         sandboxData.storage.get = empty;
         sandboxData.storage.set = empty;
-        sandboxData.rust.serverstatus = empty;
     } else {
         sandboxData.variable = empty;
     }
