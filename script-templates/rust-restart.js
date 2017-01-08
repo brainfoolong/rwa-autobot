@@ -1,4 +1,4 @@
-// restart server each day at 10:00 morning
+// restart a rust server each day at 10:00 morning
 // be warned: if you don't have clear conditions when the command will fire, than you probably and up in a reboot loop
 // when you write it for your own, do some dry runs with log("restart") instead of the real restart command
 // and check if your script is working nicely
@@ -16,6 +16,6 @@ if (context == "update") {
     // so in worst case this script only fires 5 minutes a day
     if (thisHour == 10 && thisMinute <= 5 && lastRestart != thisDay) {
         storage.set(storageKey, thisDay);
-        cmd("restart " + restarttime);
+        cmd("restart " + variable.get("restarttime"));
     }
 }

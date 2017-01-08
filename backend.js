@@ -4,7 +4,6 @@ var Widget = require(__dirname + "/../../../src/widget");
 var WebSocketUser = require(__dirname + "/../../../src/websocketuser");
 var hash = require(__dirname + "/../../../src/hash");
 var vm = require('vm');
-var gametools = require(__dirname + "/../../../src/gametools");
 
 var widget = new Widget();
 
@@ -15,37 +14,9 @@ var widget = new Widget();
  */
 widget.onServerMessage = function (server, message) {
     var sandboxData = {
-        "context": message.type === 4 ? "serverMessageLog" : "serverMessage",
+        "context": "serverMessage",
         "message": message.body
     };
-    var chatMsg = sandboxData.message.match(/^\[CHAT\] (.*?)\[([0-9]+)\/([0-9]+)\] \: (.*)/i);
-    var joinMsg = sandboxData.message.match(/([0-9]+)\/([0-9]+)\/(.*?) (joined|disconnect)/i);
-    var banKickMsg = sandboxData.message.match(/^(banned|kicked):(.*)/i);
-    var unbanMsg = sandboxData.message.match(/^Unbanned User:(.*)/i);
-    if (chatMsg) {
-        sandboxData.context = "chat";
-        sandboxData.user = {
-            name: chatMsg[1],
-            id: chatMsg[3]
-        };
-        sandboxData.chatMessage = chatMsg[4];
-    } else if (joinMsg) {
-        sandboxData.context = joinMsg[4] == "joined" ? "connect" : "disconnect";
-        sandboxData.user = {
-            name: joinMsg[3],
-            id: joinMsg[2]
-        };
-    } else if (banKickMsg) {
-        sandboxData.context = banKickMsg[1].toLowerCase() == "banned" ? "ban" : "kick";
-        sandboxData.user = {
-            name: banKickMsg[2].trim()
-        };
-    } else if (unbanMsg) {
-        sandboxData.context = "unban";
-        sandboxData.user = {
-            id: unbanMsg[1].trim()
-        };
-    }
     widget.executeAllScripts(server, sandboxData);
 };
 
@@ -125,17 +96,18 @@ widget.executeAllScripts = function (server, sandboxData) {
                 // execute script and send a message to all connected users
                 // send a message to all connected users
                 var sandboxDataCopy = JSON.parse(JSON.stringify(sandboxData));
+                var variables = {};
                 for (var varIndex in programsRow.variables) {
                     if (programsRow.variables.hasOwnProperty(varIndex)) {
                         var varRow = programsRow.variables[varIndex];
-                        sandboxDataCopy[varIndex] = varRow.default;
+                        variables[varIndex] = varRow.default;
                         if (typeof programsRow.variableValues[varIndex] != "undefined"
                             && programsRow.variableValues[varIndex] !== null) {
-                            sandboxDataCopy[varIndex] = programsRow.variableValues[varIndex];
+                            variables[varIndex] = programsRow.variableValues[varIndex];
                         }
                     }
                 }
-                var result = widget.executeUserScript(server, programsRow.id, programsRow.script, sandboxDataCopy);
+                var result = widget.executeUserScript(server, programsRow.id, programsRow.script, sandboxDataCopy, variables);
                 result.program = {
                     "id": programsRow.id,
                     "title": programsRow.title
@@ -156,28 +128,16 @@ widget.executeAllScripts = function (server, sandboxData) {
  * @param {string} programId
  * @param {string} script
  * @param {object} sandboxData
+ * @param {object=} variables
  */
-widget.executeUserScript = function (server, programId, script, sandboxData) {
+widget.executeUserScript = function (server, programId, script, sandboxData, variables) {
     var logs = [];
-    /**
-     * Say something as server
-     * @param {string} message
-     * @param {function=} callback
-     */
-    sandboxData.say = function (message, callback) {
-        server.cmd("say " + message, null, true, function () {
-            if (callback) callback();
-        });
-    };
     /**
      * Send a command
      * @param {string} message
-     * @param {function=} callback
      */
-    sandboxData.cmd = function (message, callback) {
-        server.cmd(message, null, true, function () {
-            if (callback) callback();
-        });
+    sandboxData.cmd = function (message) {
+        server.cmd(message);
     };
     /**
      * Log for browser console
@@ -185,35 +145,58 @@ widget.executeUserScript = function (server, programId, script, sandboxData) {
     sandboxData.log = function () {
         logs.push(Array.prototype.slice.call(arguments));
     };
-    /**
-     * Define an interface variable
-     * @param {string} name
-     * @param {string} type
-     * @param {string} label
-     * @param {*} defaultValue
-     */
-    sandboxData.variable = function (name, type, label, defaultValue) {
-        if (typeof sandboxData[name] != "undefined") {
-            throw new Error("Variable '" + name + "' already used in this script, choose another name");
-        }
-        var programs = widget.storage.get(server, "programs") || {};
-        if (typeof programs[programId] != "undefined") {
-            var program = programs[programId];
-            program.variables = program.variables || {};
-            program.variableValues = program.variableValues || {};
-            program.variables[name] = {
-                "type": type,
-                "label": label,
-                "default": defaultValue
-            };
-            widget.storage.set(server, "programs", programs);
+    sandboxData.variable = {
+        /**
+         * Define an interface variable
+         * @param {string} name
+         * @param {string} type
+         * @param {string} label
+         * @param {*} defaultValue
+         */
+        add: function (name, type, label, defaultValue) {
+            if (typeof sandboxData[name] != "undefined") {
+                throw new Error("Variable '" + name + "' already used in this script, choose another name");
+            }
+            var programs = widget.storage.get(server, "programs") || {};
+            if (typeof programs[programId] != "undefined") {
+                var program = programs[programId];
+                program.variables = program.variables || {};
+                program.variableValues = program.variableValues || {};
+                program.variables[name] = {
+                    "type": type,
+                    "label": label,
+                    "default": defaultValue
+                };
+                widget.storage.set(server, "programs", programs);
+            }
+        },
+        /**
+         * Get a variable value
+         * @param {string} name
+         * @returns {*|null}
+         */
+        get: function (name) {
+            if (!variables || typeof variables[name] == "undefined") return null;
+            return variables[name];
         }
     };
     sandboxData.storage = {
-        "get": function (key) {
+        /**
+         * Get a storage value
+         * @param {string} key
+         * @returns {*|null}
+         */
+        get: function (key) {
             return widget.storage.get(server, "autobot." + programId + "." + key);
         },
-        "set": function (key, value, lifetime) {
+        /**
+         * Get a storage value
+         * @param {string} key
+         * @param {*} value
+         * @param {number=} lifetime
+         * @returns {*|null}
+         */
+        set: function (key, value, lifetime) {
             return widget.storage.set(server, "autobot." + programId + "." + key, value, lifetime);
         }
     };
@@ -221,12 +204,12 @@ widget.executeUserScript = function (server, programId, script, sandboxData) {
 
     };
     if (sandboxData.context == "validate") {
-        sandboxData.say = empty;
         sandboxData.cmd = empty;
         sandboxData.storage.get = empty;
         sandboxData.storage.set = empty;
-    } else {
-        sandboxData.variable = empty;
+        sandboxData.variable.get = empty;
+    }else{
+        sandboxData.variable.add = empty;
     }
     try {
         var vmScript = new vm.Script(script, {"timeout": 5});

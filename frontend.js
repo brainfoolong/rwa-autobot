@@ -9,7 +9,7 @@ Widget.register("rwa-autobot", function (widget) {
     var editor = widget.template(".editor");
     var options = widget.template(".options-container");
 
-    var scriptTemplates = ["echobot", "nextwipe", "repeatchat", "restart", "rust-autokick", "warnsalty", "welcomegoodbye"];
+    var scriptTemplates = ["rust-repeatchat", "rust-restart"];
 
     var aceEditor = null;
     var aceSession = null;
@@ -82,6 +82,7 @@ Widget.register("rwa-autobot", function (widget) {
     var loadProgram = function (id) {
         var tplSplit = id ? id.split("_") : null;
         if (tplSplit && tplSplit.length > 1) {
+            $("h2.collapsed.collapsable-trigger[data-collapsable-target='autobot.editor']").trigger("click");
             $.ajax({
                 "url": "widgets/rwa-autobot/script-templates/" + tplSplit[1] + ".js",
                 "dataType": "text",
