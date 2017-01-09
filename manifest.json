@@ -1,6 +1,6 @@
 {
   "id": "rwa-autobot",
-  "repository" : "brainfoolong/rwa-autobot",
+  "repository": "brainfoolong/rwa-autobot",
   "version": "0.9.0",
   "compatibleGames": "all",
   "compatibleSizes": [
@@ -19,14 +19,14 @@
       "list.programs": "Choose",
       "new.program": "Create a new program",
       "saved": "Program saved",
-      "delete.program" : "Delete program",
-      "sure" : "Are you sure?",
-      "program.enabled" : "Active",
-      "program.disabled" : "Inactive",
+      "delete.program": "Delete program",
+      "sure": "Are you sure?",
+      "program.enabled": "Active",
+      "program.disabled": "Inactive",
       "editor": "Editor",
-      "variables" : "Variables",
-      "list" : "Choose or create a new program",
-      "template" : "Template"
+      "variables": "Variables",
+      "list": "Choose or create a new program",
+      "template": "Template"
     }
   }
 }

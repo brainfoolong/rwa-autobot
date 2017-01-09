@@ -208,7 +208,7 @@ widget.executeUserScript = function (server, programId, script, sandboxData, var
         sandboxData.storage.get = empty;
         sandboxData.storage.set = empty;
         sandboxData.variable.get = empty;
-    }else{
+    } else {
         sandboxData.variable.add = empty;
     }
     try {
