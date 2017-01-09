@@ -210,9 +210,11 @@ Widget.register("rwa-autobot", function (widget) {
 
         actionBtns.find(".btn.save").on("click", saveProgram);
         actionBtns.find(".btn.delete").on("click", function () {
-            if (confirm(widget.t("sure"))) {
-                deleteProgram(editId);
-            }
+            Modal.confirm(t("sure"), function (success) {
+                if (success) {
+                    deleteProgram(editId);
+                }
+            });
         });
 
         collapsable(widget.content);
