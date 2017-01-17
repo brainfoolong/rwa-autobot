@@ -9,7 +9,7 @@ Widget.register("rwa-autobot", function (widget) {
     var editor = widget.template(".editor");
     var options = widget.template(".options-container");
 
-    var scriptTemplates = ["rust-repeatchat", "rust-restart"];
+    var scriptTemplates = ["rust-repeatsay", "rust-restart"];
 
     var aceEditor = null;
     var aceSession = null;
