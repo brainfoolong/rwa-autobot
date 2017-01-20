@@ -27,6 +27,25 @@
       "variables": "Variables",
       "list": "Choose or create a new program",
       "template": "Template"
+    },
+    "de": {
+      "name": "Autobot",
+      "description": "Automatisiere Befehle, plane Aufgaben, einfach \"if this than that\"",
+      "title.placeholder": "Benenne dein Botscript",
+      "save.changes": "Änderungen speichern",
+      "missing.title": "Benenne dein Botscript",
+      "missing.script": "Nun gut, ohne irgendeinem Script kannst du nichts speichern",
+      "list.programs": "Wählen",
+      "new.program": "Erstelle ein neues Programm",
+      "saved": "Programm gespeichert",
+      "delete.program": "Programm löschen",
+      "sure": "Bist du sicher?",
+      "program.enabled": "Aktiv",
+      "program.disabled": "Inaktiv",
+      "editor": "Editor",
+      "variables": "Variablen",
+      "list": "Wählen oder neu erstellen",
+      "template": "Template"
     }
   }
 }
