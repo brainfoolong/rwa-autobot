@@ -3,7 +3,7 @@
 // when you write it for your own, do some dry runs with log("restart") instead of the real restart command
 // and check if your script is working nicely
 // allow also for variable restart warning time
-variable("restarttime", "number", "Display warning in chat x seconds before the server really restarts", 300);
+variable.add("restarttime", "number", "Display warning in chat x seconds before the server really restarts", 300);
 
 if (context == "update") {
     var storageKey = "lastrestart";
