@@ -1,3 +1,6 @@
+### Project discontinued
+Because of lack of time, i must discontinue this project. It will stay online, it will probably work out of the box. Maybe someone can take over development for this project?! Feel free to fork it.
+
 # Autobot Widget
 
 The name is program. Automate commands, schedule commands, simply do "if this than that". You can also listen for an incoming server messages. You can do some periodic tasks like sending a server message out every 30 minutes or restart server each day at 06:00 am. You can do an auto-kick/auto-ban feature. We provide some templates to start with. Fully scriptable with, easy to use, all time best, javascript. It's basically a widget in a widget in the rcon web admin, magic, isn't it?
